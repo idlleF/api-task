@@ -1,0 +1,43 @@
+<div class="modal fade" id="create-edit-task" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <form class="modal-content" id="create-project">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Create task</h5>
+                <span aria-hidden="true">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input name="title" type="text" class="form-control" id="title" placeholder="Add title...">
+                </div>
+                <br/>
+                <div class="form-group">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea name="description" class="form-control" id="description" rows="3"></textarea>
+                    </div>
+                </div>
+                <br/>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select class="form-control" id="status" name="status">
+                        <option>new</option>
+                        <option>pending</option>
+                        <option>failed</option>
+                        <option>done</option>
+                    </select>
+                </div>
+                <br/>
+                <div class="form-group">
+                    <label for="duration">Duration</label>
+                    <input type="text" name="duration" class="form-control" id="duration">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" id="save">Save</button>
+            </div>
+            <input type="hidden" name="project" value="/api/projects/{{ id }}">
+        </form>
+    </div>
+</div>
+{{ encore_entry_script_tags('task-modal') }}

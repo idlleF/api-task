@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  php-apache:
+    container_name: "${CONTAINER_NAME_PREFIX}-apache-php"
+    build: ./docker/php-apache
+    volumes:
+      - ${PATH_TO_SYMFONY_PROJECT}:/var/www/html
+    ports:
+      - "80:80"
+    depends_on:
+      - database
+
+
+  database:
+    container_name: "${CONTAINER_NAME_PREFIX}-postgre"
+    image: postgres:${POSTGRES_VERSION:-15}-alpine
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - database_data:/var/lib/postgresql/data:rw
+
+volumes:
+  ###> doctrine/doctrine-bundle ###
+  database_data:

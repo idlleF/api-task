@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container-md">
+        <h1>Projects</h1>
+        <br />
+        <table id="projects" class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Status</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div class="d-flex justify-content-between">
+            <div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination" style="margin-bottom: 0;">
+                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm" id="add">Add</button>
+        </div>
+
+        {{ include('home/modal/project.html.twig') }}
+
+    </div>
+    {{ encore_entry_script_tags('projects') }}
+{% endblock %}
