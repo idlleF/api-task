@@ -7,7 +7,10 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20231017163524 extends AbstractMigration
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+final class Version20231030161953 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -16,11 +19,12 @@ final class Version20231017163524 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql("CREATE TYPE statuses AS ENUM ('new', 'pending', 'failed', 'done')");
+        $this->addSql("ALTER TABLE task ADD COLUMN status statuses");
+        $this->addSql("ALTER TABLE task ALTER COLUMN status SET DEFAULT 'new'");
     }
 
     public function down(Schema $schema): void
     {
-        $this->addSql('CREATE SCHEMA public');
+
     }
 }

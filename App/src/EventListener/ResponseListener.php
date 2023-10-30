@@ -28,7 +28,7 @@ class ResponseListener implements EventSubscriberInterface
     {
         return [
             'kernel.response' => 'onKernelResponse',
-            'kernel.request' => 'onKernelRequest'
+            'kernel.request' => 'onKernelRequest',
         ];
     }
 
@@ -47,9 +47,10 @@ class ResponseListener implements EventSubscriberInterface
 
     public function onKernelRequest(RequestEvent $event): void
     {
-        if ($event->getRequest()->isMethod(Request::METHOD_POST) ||
-            $event->getRequest()->isMethod(Request::METHOD_PUT))
-        {
+        if (
+            $event->getRequest()->isMethod(Request::METHOD_POST) ||
+            $event->getRequest()->isMethod(Request::METHOD_PUT)
+        ) {
             $this->handleUpdateProject($event);
         }
     }
@@ -87,21 +88,23 @@ class ResponseListener implements EventSubscriberInterface
     {
         $params = json_decode($event->getRequest()->getContent());
 
-        $parts = explode('/', $params->project);
-        $projectId = end($parts);
+        if (!empty($params->project)) {
+            $parts = explode('/', $params->project);
+            $projectId = end($parts);
 
-        $project = $this->projectRepository->find($projectId);
+            $project = $this->projectRepository->find($projectId);
 
-        $projectDuration = $project->getDuration();
-        $transformedProjectDuration = strtotime($projectDuration->format('Y-m-d H:i:s'));
-        $taskDuration = strtotime($params->duration);
+            $projectDuration = $project->getDuration();
+            $transformedProjectDuration = strtotime($projectDuration->format('Y-m-d H:i:s'));
+            $taskDuration = strtotime($params->duration);
 
-        if ($transformedProjectDuration < $taskDuration) {
-            $newProjectDuration = (new \DateTimeImmutable())->setTimestamp($taskDuration);
-            $project->setDuration($newProjectDuration);
-            $this->entityManager->persist($project);
+            if ($transformedProjectDuration < $taskDuration) {
+                $newProjectDuration = (new \DateTimeImmutable())->setTimestamp($taskDuration);
+                $project->setDuration($newProjectDuration);
+                $this->entityManager->persist($project);
+            }
+
+            $this->entityManager->flush();
         }
-
-        $this->entityManager->flush();
     }
 }
